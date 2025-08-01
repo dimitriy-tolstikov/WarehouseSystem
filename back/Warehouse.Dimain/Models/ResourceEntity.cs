@@ -1,6 +1,14 @@
-﻿namespace Warehouse.Domain.Models;
+﻿using Warehouse.Domain.Models.Base;
 
-public class ResourceEntity : BaseEntityWithId
+namespace Warehouse.Domain.Models;
+
+/// <summary>
+/// Ресурс на складе
+/// </summary>
+public class ResourceEntity : BaseEntityWithIdArchive
 {
+    /// <summary>
+    /// Наименование
+    /// </summary>
     public required string Name { get; set; }
 }
