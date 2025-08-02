@@ -21,6 +21,33 @@ namespace Warehouse.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Warehouse.Domain.Models.ClientEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsArchive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("clients", (string)null);
+                });
+
             modelBuilder.Entity("Warehouse.Domain.Models.ResourceEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -38,7 +65,33 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("resources");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("resources", (string)null);
+                });
+
+            modelBuilder.Entity("Warehouse.Domain.Models.UnitEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("IsArchive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("units", (string)null);
                 });
 #pragma warning restore 612, 618
         }
