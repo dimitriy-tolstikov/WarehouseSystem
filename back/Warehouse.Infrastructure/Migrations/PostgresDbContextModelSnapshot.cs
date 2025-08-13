@@ -103,7 +103,7 @@ namespace Warehouse.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("IncomeId")
+                    b.Property<long?>("IncomeId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("Quantity")
@@ -195,9 +195,7 @@ namespace Warehouse.Infrastructure.Migrations
                 {
                     b.HasOne("Warehouse.Domain.Models.IncomeEntity", "Income")
                         .WithMany("IncomeItems")
-                        .HasForeignKey("IncomeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IncomeId");
 
                     b.HasOne("Warehouse.Domain.Models.ResourceEntity", "Resource")
                         .WithMany()
