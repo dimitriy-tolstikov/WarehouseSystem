@@ -149,6 +149,50 @@ namespace Warehouse.Infrastructure.Migrations
                     b.ToTable("resources");
                 });
 
+            modelBuilder.Entity("Warehouse.Domain.Models.ShipmentEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable("shipments");
+                });
+
+            modelBuilder.Entity("Warehouse.Domain.Models.ShipmentItemEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("IncomeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Quantity")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ResourceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UnitId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IncomeId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("shipmetItems");
+                });
+
             modelBuilder.Entity("Warehouse.Domain.Models.UnitEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -195,6 +239,31 @@ namespace Warehouse.Infrastructure.Migrations
                 {
                     b.HasOne("Warehouse.Domain.Models.IncomeEntity", "Income")
                         .WithMany("IncomeItems")
+                        .HasForeignKey("IncomeId");
+
+                    b.HasOne("Warehouse.Domain.Models.ResourceEntity", "Resource")
+                        .WithMany()
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Warehouse.Domain.Models.UnitEntity", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Income");
+
+                    b.Navigation("Resource");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Warehouse.Domain.Models.ShipmentItemEntity", b =>
+                {
+                    b.HasOne("Warehouse.Domain.Models.IncomeEntity", "Income")
+                        .WithMany()
                         .HasForeignKey("IncomeId");
 
                     b.HasOne("Warehouse.Domain.Models.ResourceEntity", "Resource")

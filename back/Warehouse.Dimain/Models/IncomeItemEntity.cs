@@ -33,7 +33,7 @@ public class IncomeItemEntity : BaseEntityWithId
     public long UnitId { get; set; }
 
     /// <summary>
-    /// Количетсво ресурса
+    /// Количество ресурса
     /// </summary>
     public long Quantity { get; set; }
 }
