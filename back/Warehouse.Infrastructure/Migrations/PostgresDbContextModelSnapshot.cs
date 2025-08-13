@@ -157,7 +157,19 @@ namespace Warehouse.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("ClientId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.ToTable("shipments");
                 });
@@ -170,13 +182,13 @@ namespace Warehouse.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("IncomeId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("Quantity")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ResourceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ShipmentId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("UnitId")
@@ -184,9 +196,9 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IncomeId");
-
                     b.HasIndex("ResourceId");
+
+                    b.HasIndex("ShipmentId");
 
                     b.HasIndex("UnitId");
 
@@ -260,17 +272,28 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Navigation("Unit");
                 });
 
+            modelBuilder.Entity("Warehouse.Domain.Models.ShipmentEntity", b =>
+                {
+                    b.HasOne("Warehouse.Domain.Models.ClientEntity", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("Warehouse.Domain.Models.ShipmentItemEntity", b =>
                 {
-                    b.HasOne("Warehouse.Domain.Models.IncomeEntity", "Income")
-                        .WithMany()
-                        .HasForeignKey("IncomeId");
-
                     b.HasOne("Warehouse.Domain.Models.ResourceEntity", "Resource")
                         .WithMany()
                         .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Warehouse.Domain.Models.ShipmentEntity", "Shipment")
+                        .WithMany("ShipmentItems")
+                        .HasForeignKey("ShipmentId");
 
                     b.HasOne("Warehouse.Domain.Models.UnitEntity", "Unit")
                         .WithMany()
@@ -278,9 +301,9 @@ namespace Warehouse.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Income");
-
                     b.Navigation("Resource");
+
+                    b.Navigation("Shipment");
 
                     b.Navigation("Unit");
                 });
@@ -288,6 +311,11 @@ namespace Warehouse.Infrastructure.Migrations
             modelBuilder.Entity("Warehouse.Domain.Models.IncomeEntity", b =>
                 {
                     b.Navigation("IncomeItems");
+                });
+
+            modelBuilder.Entity("Warehouse.Domain.Models.ShipmentEntity", b =>
+                {
+                    b.Navigation("ShipmentItems");
                 });
 #pragma warning restore 612, 618
         }
