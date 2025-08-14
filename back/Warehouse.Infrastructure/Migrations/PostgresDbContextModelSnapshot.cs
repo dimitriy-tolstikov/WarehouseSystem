@@ -163,6 +163,9 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
+                    b.Property<bool>("IsApprove")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("text");
