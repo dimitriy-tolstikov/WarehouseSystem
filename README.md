@@ -19,7 +19,7 @@
 ### 1. Клонирование и настройка окружения
 
 ```bash
-git clone https://github.com/Dimonogen/WarehouseSystem.git
+git clone https://github.com/dimitriy-tolstikov/Warehouse-System.git
 cd WarehouseSystem
 ```
 
