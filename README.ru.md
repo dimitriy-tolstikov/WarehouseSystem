@@ -99,10 +99,27 @@ WarehouseSystem
 
 ## Скриншоты
 
-*Главная страница и справочники в Docker Compose.*
+*Дашборд, баланс, поступления и справочник ресурсов. Тёмная или светлая тема подставляется в зависимости от системной.*
 
-![Главная страница](docs/screenshot-dashboard.png)
-![Справочник](docs/screenshot-directory.png)
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/dashboard-light-ru.png">
+  <img alt="Дашборд — остатки, движение товаров за неделю и последние операции" src="docs/screenshots/dashboard-dark-ru.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/balance-light-ru.png">
+  <img alt="Баланс — текущие остатки по ресурсам и единицам измерения" src="docs/screenshots/balance-dark-ru.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/income-light-ru.png">
+  <img alt="Поступления — список с фильтрами по периоду, номеру и ресурсу" src="docs/screenshots/income-dark-ru.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/resource-light-ru.png">
+  <img alt="Справочник ресурсов" src="docs/screenshots/resource-dark-ru.png">
+</picture>
 
 ## CI
 

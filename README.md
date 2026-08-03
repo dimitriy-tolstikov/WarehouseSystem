@@ -99,10 +99,27 @@ WarehouseSystem
 
 ## Screenshots
 
-*Dashboard and directory pages running in Docker Compose.*
+*Dashboard, balance, receipts and resources directory. Dark or light theme is shown depending on your system preference.*
 
-![Warehouse dashboard](docs/screenshot-dashboard.png)
-![Warehouse directory](docs/screenshot-directory.png)
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/dashboard-light-en.png">
+  <img alt="Dashboard — stock totals, weekly goods movement and recent operations" src="docs/screenshots/dashboard-dark-en.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/balance-light-en.png">
+  <img alt="Balance — current stock by resource and unit of measure" src="docs/screenshots/balance-dark-en.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/income-light-en.png">
+  <img alt="Receipts — incoming goods with period, number and resource filters" src="docs/screenshots/income-dark-en.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/resource-light-en.png">
+  <img alt="Resources directory" src="docs/screenshots/resource-dark-en.png">
+</picture>
 
 ## CI
 
