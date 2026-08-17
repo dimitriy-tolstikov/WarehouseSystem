@@ -1,5 +1,6 @@
 import {Form} from "react-bootstrap";
 import type {SelectOption} from "../../../types/Filters";
+import {useTranslation} from "../../../i18n/locale";
 
 type SelectInputOptions = {
     options: Array<SelectOption>,
@@ -9,6 +10,8 @@ type SelectInputOptions = {
 }
 
 const PureSelectInput = ({options = [], onChange, selected} : SelectInputOptions) => {
+
+    const {t} = useTranslation();
 
     return(
         <>
@@ -22,7 +25,7 @@ const PureSelectInput = ({options = [], onChange, selected} : SelectInputOptions
                 }
                 {
                     options.find(x => x.value === selected?.value) === undefined
-                        && <option value={selected?.value ?? '-1'} >{selected?.title ?? 'Не выбрано'}</option>
+                        && <option value={selected?.value ?? '-1'} >{selected?.title ?? t('filter.notSelected')}</option>
                 }
             </Form.Select>
         </>

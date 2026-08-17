@@ -12,18 +12,18 @@ type IncomeGridRow = {
     hrefId: number;
 }
 
-const IncomePage = createGridPage<IncomeEntity>(INCOME_API_PATH, INCOME_PAGE_ROUTE, 'Поступления', 'Filters',
+const IncomePage = createGridPage<IncomeEntity>(INCOME_API_PATH, INCOME_PAGE_ROUTE, 'income.listTitle', 'Filters',
     [
-        {field: 'number', headerName: 'Номер', width: 150},
-        {field: 'date', headerName: 'Дата', width: 100},
-        {field: 'resource', headerName: 'Ресурс', width: 150},
-        {field: 'unit', headerName: 'Единица измерения', width: 150},
-        {field: 'quantity', headerName: 'Количество', width: 150},
+        {field: 'number', headerName: 'common.number', width: 150},
+        {field: 'date', headerName: 'common.date', width: 100},
+        {field: 'resource', headerName: 'common.resource', width: 150},
+        {field: 'unit', headerName: 'common.unit', width: 150},
+        {field: 'quantity', headerName: 'common.quantity', width: 150},
     ], [
-        {fieldName: 'Date', name: 'Период', type:'date' },
-        {fieldName: 'Id', name: 'Номер', type:'select', apiPath: INCOME_API_PATH },
-        {fieldName: 'IncomeItems.Resource.Id', name: 'Ресурс', type:'select', apiPath: RESOURCE_API_PATH },
-        {fieldName: 'IncomeItems.Unit.Id', name: 'Единица измерения', type:'select', apiPath: UNIT_API_PATH },
+        {fieldName: 'Date', name: 'common.period', type:'date' },
+        {fieldName: 'Id', name: 'common.number', type:'select', apiPath: INCOME_API_PATH },
+        {fieldName: 'IncomeItems.Resource.Id', name: 'common.resource', type:'select', apiPath: RESOURCE_API_PATH },
+        {fieldName: 'IncomeItems.Unit.Id', name: 'common.unit', type:'select', apiPath: UNIT_API_PATH },
     ], true,
     (items) => {
         const rows: IncomeGridRow[] = [];

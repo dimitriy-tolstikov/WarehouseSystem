@@ -4,6 +4,7 @@ import type {GridOptions} from "../types/Request";
 import type {ModalContextType} from "../types/Modal";
 import {LoadStringToDate, UploadDateToString} from "../utils/functions";
 import {LOGIN_PAGE_ROUTE, TOKEN_KEY} from "../utils/consts";
+import {t} from "../i18n/locale";
 
 const baseUrlApi = import.meta.env.VITE_APP_API_URL
 
@@ -31,7 +32,7 @@ $host.interceptors.response.use(response => response, error => {
 })
 
 const showError = (text: string, modalC: ModalContextType) => {
-    modalC?.setModal({header:'Ошибка', content: text, buttonText: 'Ок', onClose:
+    modalC?.setModal({header: t('common.error'), content: text, buttonText: t('common.ok'), onClose:
             () => {modalC?.setModal(null)} })
 }
 
@@ -40,7 +41,7 @@ const errorHandle = async <T>(script: () => Promise<ResponseDto<T>>, modalC: Mod
         const result = await script();
         if(result?.hasError)
         {
-            showError( result.errorMessage ?? 'Ошибка', modalC )
+            showError( result.errorMessage ?? t('common.error'), modalC )
         }
         else
         {
@@ -51,11 +52,11 @@ const errorHandle = async <T>(script: () => Promise<ResponseDto<T>>, modalC: Mod
         if (axios.isAxiosError(e)) {
             const data = e.response?.data as ResponseDto<unknown> | undefined;
             const message = data?.errorMessage
-                ?? (e.response !== undefined && e.response.status >= 500 ? 'Ошибка сервера' : 'Ошибка сети');
+                ?? (e.response !== undefined && e.response.status >= 500 ? t('error.serverError') : t('error.networkError'));
             showError(message, modalC);
         }
         else {
-            showError(e instanceof Error ? e.message : 'Ошибка сети', modalC);
+            showError(e instanceof Error ? e.message : t('error.networkError'), modalC);
         }
     }
 }

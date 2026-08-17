@@ -1,4 +1,5 @@
 import type {DashboardOperationDto} from "../../../types/Dashboard";
+import {useTranslation} from "../../../i18n/locale";
 
 type OperationsListProps = {
     operations: Array<DashboardOperationDto>
@@ -8,9 +9,12 @@ const formatQuantity = (quantity: number) =>
     (quantity > 0 ? '+' : '') + quantity.toLocaleString('ru-RU');
 
 const OperationsList = ({operations}: OperationsListProps) => {
+
+    const {t} = useTranslation();
+
     return (
         <div className='dashboard__card dashboard__operations'>
-            <div className='dashboard__card-title'>Последние операции</div>
+            <div className='dashboard__card-title'>{t('dashboard.lastOperations')}</div>
             <div className='dashboard__operations-list'>
                 {
                     operations.map((op, i) =>
@@ -25,7 +29,7 @@ const OperationsList = ({operations}: OperationsListProps) => {
                 }
                 {
                     operations.length === 0 &&
-                    <div className='dashboard__empty'>Операций пока нет</div>
+                    <div className='dashboard__empty'>{t('dashboard.noOperations')}</div>
                 }
             </div>
         </div>

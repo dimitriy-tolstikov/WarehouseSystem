@@ -1,4 +1,5 @@
 import type {FilterType} from "./Request";
+import type {TranslationKey} from "../i18n/translations";
 
 export type SelectOption = {
     value: string,
@@ -6,7 +7,8 @@ export type SelectOption = {
 }
 
 interface BaseFilterOptions {
-    name: string,
+    // name — ключ перевода, в текст подставляет FilterComponent
+    name: TranslationKey,
     fieldName: string,
     onChange?: (value: ReturnFilter) => void,
 }

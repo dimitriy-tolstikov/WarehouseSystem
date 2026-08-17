@@ -8,10 +8,12 @@ import {useMemo, useState, Suspense} from "react";
 import type {Modal} from "./types/Modal";
 import ModalComponent from "./components/menu/ModalComponent";
 import {ModalContext} from "./context/ModalContext";
+import {useTranslation} from "./i18n/locale";
 
 function App() {
 
   const [modal, setModal] = useState<Modal | null>(null);
+  const {t} = useTranslation();
 
   const modalContextValue = useMemo(() => ({modal: modal, setModal: setModal}), [modal]);
 
@@ -19,7 +21,7 @@ function App() {
     <>
       <BrowserRouter>
           <ModalContext.Provider value={modalContextValue} >
-            <Suspense fallback={<div className='p-4'>Загрузка...</div>}>
+            <Suspense fallback={<div className='p-4'>{t('common.loading')}</div>}>
             <Routes>
               <Route path={LOGIN_PAGE_ROUTE} element={<LoginPage/>} />
               {

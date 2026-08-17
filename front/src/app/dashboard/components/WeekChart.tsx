@@ -1,4 +1,5 @@
 import type {DashboardDayDto} from "../../../types/Dashboard";
+import {useTranslation} from "../../../i18n/locale";
 
 type WeekChartProps = {
     days: Array<DashboardDayDto>
@@ -11,6 +12,8 @@ const PAD_BOTTOM = 28;
 const BAR_WIDTH = 40;
 
 const WeekChart = ({days}: WeekChartProps) => {
+
+    const {t} = useTranslation();
 
     const values = days.map(d => d.income + d.shipment);
     const maxValue = Math.max(...values, 1);
@@ -27,7 +30,7 @@ const WeekChart = ({days}: WeekChartProps) => {
 
     return (
         <div className='dashboard__card dashboard__chart'>
-            <div className='dashboard__card-title'>Движение товаров · неделя</div>
+            <div className='dashboard__card-title'>{t('dashboard.weekMovement')}</div>
             <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className='dashboard__chart-svg' role='img'>
                 {
                     days.map((day, i) => {

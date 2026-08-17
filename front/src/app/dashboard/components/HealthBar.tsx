@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {getHealth} from "../../../api/dashboardApi";
+import {useTranslation} from "../../../i18n/locale";
 
 type HealthState =
     { status: 'loading' } |
@@ -8,16 +9,18 @@ type HealthState =
 
 const HealthBar = () => {
 
+    const {t} = useTranslation();
+
     const [health, setHealth] = useState<HealthState>({status: 'loading'});
 
     useEffect(() => {
         getHealth()
             .then(text => setHealth({
                 status: 'ok',
-                text: text === 'Healthy' ? 'health: OK · postgres: OK · миграции применены' : text
+                text: text === 'Healthy' ? t('dashboard.healthOk') : text
             }))
             .catch((e) => setHealth({status: 'error', text: (e as unknown as Error).message}));
-    }, [])
+    }, [t])
 
     return (
         <div className={'dashboard__health ' +
@@ -26,9 +29,9 @@ const HealthBar = () => {
                 (health.status === 'error' ? 'dashboard__health-dot--error' : 'dashboard__health-dot--ok')}/>
             <span className='dashboard__health-text'>
                 {
-                    health.status === 'loading' ? 'Проверка состояния системы…' :
+                    health.status === 'loading' ? t('dashboard.healthCheck') :
                     health.status === 'ok' ? health.text :
-                    'Сервис недоступен: ' + health.text
+                    t('dashboard.serviceUnavailable', {error: health.text})
                 }
             </span>
         </div>

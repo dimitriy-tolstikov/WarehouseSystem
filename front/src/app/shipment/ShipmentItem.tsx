@@ -26,10 +26,13 @@ import {useNavigate} from "react-router-dom";
 import {useQueryClient} from "@tanstack/react-query";
 import {gridKey, itemKey, useSelectOptions} from "../../api/queries";
 import {validateDocument} from "../../utils/validation";
+import {useTranslation} from "../../i18n/locale";
 
 type ShipmentButtonsCode = 'save' | 'approve' | 'disApprove' | 'delete';
 
 const ShipmentItem = ({data, id, onChange}: ItemComponentProps<ShipmentEntity>) => {
+
+    const {t} = useTranslation();
 
     const mContext = useContext(ModalContext)
     const queryClient = useQueryClient()
@@ -59,7 +62,7 @@ const ShipmentItem = ({data, id, onChange}: ItemComponentProps<ShipmentEntity>) 
             return false;
         const error = validateDocument({number: data.number, date: data.date, items: data.shipmentItems});
         if (error !== null) {
-            mContext?.setModal({header: 'Ошибка', content: error, buttonText: 'Ок',
+            mContext?.setModal({header: t('common.error'), content: error, buttonText: t('common.ok'),
                 onClose: () => mContext?.setModal(null)})
             return false;
         }
@@ -85,7 +88,7 @@ const ShipmentItem = ({data, id, onChange}: ItemComponentProps<ShipmentEntity>) 
     }, [data, id])
 
     const buttonsTemplate: Array<{ code: ShipmentButtonsCode, className: string, variant: string, text: string, icon: React.ReactNode, onClick: () => void}> = [
-        {code: 'save', className: 'me-2', variant: 'outline-dark', text:'Сохранить', icon: <Save size={16} />, onClick: () => {
+        {code: 'save', className: 'me-2', variant: 'outline-dark', text: t('common.save'), icon: <Save size={16} />, onClick: () => {
                 if (!validate()) return;
                 save(data!).then(res => {
                     if(res !== (id ?? 0) && res !== undefined )
@@ -94,7 +97,7 @@ const ShipmentItem = ({data, id, onChange}: ItemComponentProps<ShipmentEntity>) 
                     if (res !== undefined) invalidateQueries();
                 } )
             } },
-        {code: 'approve', className: 'me-2', variant: 'outline-success', text: 'Сохранить и подписать', icon: <CheckCheck size={16} />, onClick: () => {
+        {code: 'approve', className: 'me-2', variant: 'outline-success', text: t('shipment.saveAndApprove'), icon: <CheckCheck size={16} />, onClick: () => {
                 if (!validate()) return;
                 save(data!).then(res => {
                         if (res !== undefined) changeState(res, 'approve')
@@ -102,16 +105,16 @@ const ShipmentItem = ({data, id, onChange}: ItemComponentProps<ShipmentEntity>) 
                     }
                 )
             } },
-        {code: 'disApprove', className: 'me-2', variant: 'outline-dark', text: 'Отозвать', icon: <Undo2 size={16} />, onClick: () => {
+        {code: 'disApprove', className: 'me-2', variant: 'outline-dark', text: t('shipment.revoke'), icon: <Undo2 size={16} />, onClick: () => {
                 changeState(id, 'disApprove')
                     .then(() => { onChange({...data!, isApprove: false}); invalidateQueries(true); } )
             } },
-        {code: 'delete', className: '', variant: 'outline-danger', text:'Удалить', icon: <Trash2 size={16} />, onClick: () => {
+        {code: 'delete', className: '', variant: 'outline-danger', text: t('common.delete'), icon: <Trash2 size={16} />, onClick: () => {
                 mContext?.setModal({
-                    header: 'Удаление отгрузки',
-                    content: 'Удалить отгрузку №' + (data?.number ?? '') + '?',
-                    buttonText: 'Удалить',
-                    cancelText: 'Отмена',
+                    header: t('shipment.deleteTitle'),
+                    content: t('shipment.deleteConfirm', {number: data?.number ?? ''}),
+                    buttonText: t('common.delete'),
+                    cancelText: t('common.cancel'),
                     onClose: () => {
                         mContext?.setModal(null);
                         deleteItems(id).then(() => { invalidateQueries(); navigate(SHIPMENT_PAGE_ROUTE); });
@@ -134,25 +137,25 @@ const ShipmentItem = ({data, id, onChange}: ItemComponentProps<ShipmentEntity>) 
                    }
                )}
            </div>
-           <FieldComponent name='Номер' >
+           <FieldComponent name={t('common.number')} >
                <PureTextInput value={data?.number ?? ''} onChange={ (e) => onChange({...data!, number: e}) }
-                          id={'Номер'} placeholder={'Введите номер'} />
+                          id={t('common.number')} placeholder={t('common.enterNumber')} />
            </FieldComponent>
-           <FieldComponent name='Дата' >
+           <FieldComponent name={t('common.date')} >
                <PureDateInput value={data?.date} onChange={ (e) => { onChange({...data!, date: e}) } } />
            </FieldComponent>
-           <FieldComponent name='Клиент' >
+           <FieldComponent name={t('common.client')} >
                <PureSelectInput options={optionsClient} onChange={(e) => { onChange({...data!, clientId: +e})} }
-                                selected={{value:data?.clientId?.toString() ?? '', title: data?.clientName ?? 'Не выбрано'}}
+                                selected={{value:data?.clientId?.toString() ?? '', title: data?.clientName ?? t('filter.notSelected')}}
                />
            </FieldComponent>
            <ItemsGridComponent<ShipmentItemEntity> items={data?.shipmentItems ?? []}
                                onChange={(items) => {onChange({...data!, shipmentItems: items})}}
                                nextId={nextId} setNextId={(id) => {setNextId(id)}}
                                columns={[
-                                   {id: 'resource', type: 'select', title: 'Ресурс', field: 'resourceId', source: 'resource', options: optionsResource},
-                                   {id: 'unit', type: 'select', title: 'Единица измерения', field: 'unitId', source: 'unit', options: optionsUnit},
-                                   {id: 'quantity', type: 'number', title: 'Количество', field: 'quantity', options: []},
+                                   {id: 'resource', type: 'select', title: t('common.resource'), field: 'resourceId', source: 'resource', options: optionsResource},
+                                   {id: 'unit', type: 'select', title: t('common.unit'), field: 'unitId', source: 'unit', options: optionsUnit},
+                                   {id: 'quantity', type: 'number', title: t('common.quantity'), field: 'quantity', options: []},
                                ]} />
        </>
    )

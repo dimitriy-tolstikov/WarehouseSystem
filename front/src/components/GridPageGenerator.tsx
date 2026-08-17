@@ -11,17 +11,23 @@ import {ModalContext} from "../context/ModalContext";
 import type {GridColumnType} from "../types/Grid";
 import {useQuery} from "@tanstack/react-query";
 import {gridKey} from "../api/queries";
+import {useTranslation} from "../i18n/locale";
+import type {TranslationKey} from "../i18n/translations";
 
 type GridPageVariant = 'Archive' | 'Filters';
 
 type GridRow = Record<string, unknown>;
 
-const createGridPage = function<T> (apiPath: string, navPath: string, title: string, variant: GridPageVariant,
+// title, headerName колонок и name фильтров — ключи переводов;
+// title переводится здесь, колонки — в DataGridComponent, фильтры — в FilterComponent
+const createGridPage = function<T> (apiPath: string, navPath: string, title: TranslationKey, variant: GridPageVariant,
                                     columns: Array<GridColumnType>,
                                     filters: Array<FilterOptions> = [],
                                     itemOpenCreate: boolean = true,
                                     rowsProcess?: (items: T[]) => GridRow[]) {
     const GridPage = () => {
+
+        const {t} = useTranslation();
 
         const initialFilter: Array<FilterDto> =
             variant === 'Archive' ? [{type: 'equal', propertyName: 'IsArchive', argument: 'false'}] : [];
@@ -79,7 +85,7 @@ const createGridPage = function<T> (apiPath: string, navPath: string, title: str
 
         return (
             <>
-                <EntityGridComponent title={title} buttons={
+                <EntityGridComponent title={t(title)} buttons={
                     variant === 'Archive' ?
                     (
                         !archive ? [{id: "create", onClick: () => {navigate(navPath + '/0');} },

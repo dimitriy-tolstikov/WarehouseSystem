@@ -1,5 +1,6 @@
 import {Dropdown} from "react-bootstrap";
 import type {SelectOption} from "../../../types/Filters";
+import {useTranslation} from "../../../i18n/locale";
 
 type SelectMultiInputOptions = {
     options: Array<SelectOption>,
@@ -8,6 +9,8 @@ type SelectMultiInputOptions = {
 }
 
 const PureSelectMultiInput = ({options = [], selectedOptions = [], onChange} : SelectMultiInputOptions) => {
+
+    const {t} = useTranslation();
 
     const handleToggleOption = (option: SelectOption) => {
         const isSelected = selectedOptions.some(
@@ -33,7 +36,7 @@ const PureSelectMultiInput = ({options = [], selectedOptions = [], onChange} : S
                             <span key={e.value} style={{maxWidth: '50vw'}} className='SelectedItem ps-1 pe-1 rounded-1 overflow-auto'>{e.title}</span>
                         )
                             :
-                            <span>Выберите</span>
+                            <span>{t('filter.selectPlaceholder')}</span>
                     }
                 </div>
 

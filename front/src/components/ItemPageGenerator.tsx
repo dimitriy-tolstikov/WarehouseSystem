@@ -9,12 +9,16 @@ import type {ItemComponentProps} from "../types/Entities";
 import type {ComponentType} from "react";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {gridKey, itemKey} from "../api/queries";
+import {useTranslation} from "../i18n/locale";
+import type {TranslationKey} from "../i18n/translations";
 
 const createItemPage = function<T extends BaseEntityId>
-    (apiPath: string, navPath: string, title: string, Component: ComponentType<ItemComponentProps<T>>,
+    (apiPath: string, navPath: string, title: TranslationKey, Component: ComponentType<ItemComponentProps<T>>,
      isArchive: boolean = false, hideButtons: boolean = false, editPath: string = 'EditItem',
      validate?: (data: T) => string | null){
     const ItemPage = () => {
+
+        const {t} = useTranslation()
 
         const {id} = useParams()
         const itemId = +(id ?? '0')
@@ -56,7 +60,7 @@ const createItemPage = function<T extends BaseEntityId>
                 return true;
             const error = validate(data!);
             if (error !== null) {
-                mContext?.setModal({header: 'Ошибка', content: error, buttonText: 'Ок',
+                mContext?.setModal({header: t('common.error'), content: error, buttonText: t('common.ok'),
                     onClose: () => mContext?.setModal(null)})
                 return false;
             }
@@ -72,7 +76,7 @@ const createItemPage = function<T extends BaseEntityId>
 
         return (
             <>
-                <EntityCardComponent title={title}  Component={<Component id={itemId } data={data} onChange={setData} />}
+                <EntityCardComponent title={t(title)}  Component={<Component id={itemId } data={data} onChange={setData} />}
                                      isArchive={isArchive ? (data! as unknown as BaseEntityIdArchive)?.isArchive : false}
                                      buttons={ itemId !== 0 ? (
                                              isArchive ?

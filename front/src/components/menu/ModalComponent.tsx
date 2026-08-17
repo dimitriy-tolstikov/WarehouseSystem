@@ -2,8 +2,10 @@ import { useEffect, useCallback } from 'react';
 import {createPortal} from "react-dom";
 import {Button} from "react-bootstrap";
 import type {Modal} from "../../types/Modal";
+import {useTranslation} from "../../i18n/locale";
 
 const ModalComponent = ({ header, content, buttonText, onClose, cancelText, onCancel }: Modal) => {
+    const {t} = useTranslation();
     // Обработчик нажатия клавиши Escape
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         if (e.key === 'Escape') (onCancel ?? onClose)();
@@ -43,7 +45,7 @@ const ModalComponent = ({ header, content, buttonText, onClose, cancelText, onCa
 
                     <div className="modal-footer">
                         {onCancel !== undefined &&
-                            <Button variant={'outline-dark'} className='me-2' onClick={onCancel} > {cancelText ?? 'Отмена'} </Button>
+                            <Button variant={'outline-dark'} className='me-2' onClick={onCancel} > {cancelText ?? t('common.cancel')} </Button>
                         }
                         <Button variant={'dark'} onClick={onClose} > {buttonText} </Button>
                     </div>

@@ -5,6 +5,7 @@ import {Plus, X} from "lucide-react";
 import type { SelectOption } from "../../types/Filters";
 import PureNumberInput from "./controls/PureNumberInput";
 import type {BaseEntityId} from "../../types/Entities";
+import {useTranslation} from "../../i18n/locale";
 
 // Определение типа для колонки
 type GridColumn = {
@@ -27,6 +28,8 @@ type ItemsGridOptions<T extends BaseEntityId> = {
 type ItemWithFields = BaseEntityId & Record<string, unknown>;
 
 const ItemsGridComponent = function<T extends BaseEntityId> ({ items, onChange, nextId, setNextId, columns }: ItemsGridOptions<T>) {
+
+    const {t} = useTranslation();
 
     // Обработчик добавления нового элемента
     const handleAddItem = () => {
@@ -59,7 +62,7 @@ const ItemsGridComponent = function<T extends BaseEntityId> ({ items, onChange, 
             case 'select': {
                 if (!column.options) return null;
 
-                if(column.source === undefined) return <>Ошибка</>;
+                if(column.source === undefined) return <>{t('common.error')}</>;
                 const currentValue = item[column.source] as { id?: number; name?: string; number?: string } | undefined;
 
                 return (

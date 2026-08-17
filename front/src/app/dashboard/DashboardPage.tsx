@@ -7,6 +7,7 @@ import WeekChart from "./components/WeekChart";
 import OperationsList from "./components/OperationsList";
 import HealthBar from "./components/HealthBar";
 import TechChips from "./components/TechChips";
+import {useTranslation} from "../../i18n/locale";
 import "./DashboardPage.css";
 
 const formatNumber = (value: number) => value.toLocaleString('ru-RU');
@@ -17,6 +18,8 @@ const formatPercent = (value: number) =>
     (value > 0 ? '+' : '') + value.toLocaleString('ru-RU', {maximumFractionDigits: 1}) + '%';
 
 const DashboardPage = () => {
+
+    const {t} = useTranslation();
 
     const [summary, setSummary] = useState<DashboardSummaryDto | undefined>(undefined);
 
@@ -32,7 +35,7 @@ const DashboardPage = () => {
     if (summary === undefined) {
         return (
             <div className='dashboard'>
-                <div className='dashboard__empty'>Загрузка…</div>
+                <div className='dashboard__empty'>{t('common.loading')}</div>
             </div>
         )
     }
@@ -42,13 +45,13 @@ const DashboardPage = () => {
     return (
         <div className='dashboard'>
             <div className='dashboard__kpis'>
-                <StatCard label='Остаток, шт' value={formatNumber(kpis.totalBalance)}
+                <StatCard label={t('dashboard.stockUnits')} value={formatNumber(kpis.totalBalance)}
                           delta={{text: formatPercent(kpis.balanceDeltaPercent), positive: kpis.balanceDeltaPercent >= 0}}/>
-                <StatCard label='Поступления' value={formatNumber(kpis.incomeCount)}
+                <StatCard label={t('dashboard.receipts')} value={formatNumber(kpis.incomeCount)}
                           delta={{text: formatSigned(kpis.incomeDelta), positive: kpis.incomeDelta >= 0}}/>
-                <StatCard label='Отгрузки' value={formatNumber(kpis.shipmentCount)}
+                <StatCard label={t('dashboard.shipments')} value={formatNumber(kpis.shipmentCount)}
                           delta={{text: formatSigned(kpis.shipmentDelta), positive: kpis.shipmentDelta >= 0}}/>
-                <StatCard label='Клиенты' value={formatNumber(kpis.activeClientCount)}
+                <StatCard label={t('dashboard.clients')} value={formatNumber(kpis.activeClientCount)}
                           delta={{text: formatSigned(kpis.clientDelta), positive: kpis.clientDelta >= 0}}/>
             </div>
             <div className='dashboard__middle'>

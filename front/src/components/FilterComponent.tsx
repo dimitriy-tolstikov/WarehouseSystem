@@ -5,11 +5,13 @@ import PureDateIntervalInput from "./pure/controls/PureDateIntervalInput";
 import {DateToStringFormat} from "../utils/functions";
 import type {BaseEntityId} from "../types/Entities";
 import {useSelectOptions} from "../api/queries";
+import {useTranslation} from "../i18n/locale";
 
 
 const FilterComponent = (props:FilterOptions) => {
 
     const {fieldName, name, type, onChange} = props
+    const {t} = useTranslation()
     const apiPath = type === 'select' ? (props as SelectFilterOptions).apiPath : undefined;
 
     const [selectedOptions, setSelectedOptions] = useState<Array<SelectOption>>([])
@@ -42,7 +44,7 @@ const FilterComponent = (props:FilterOptions) => {
 
     return(
       <div className='d-flex flex-column' style={{minWidth: '200px'}}>
-        <span className='filter-bar__label'>{name}</span>
+        <span className='filter-bar__label'>{t(name)}</span>
           {
               returnSelect()
           }

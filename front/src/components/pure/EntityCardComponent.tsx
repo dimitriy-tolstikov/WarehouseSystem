@@ -1,6 +1,7 @@
 import {Button} from "react-bootstrap";
 import type {ReactNode} from "react";
 import {Archive, ArchiveRestore, Save, Trash2} from "lucide-react";
+import {useTranslation} from "../../i18n/locale";
 
 export type ItemButtonCode = 'save' | 'delete' | 'archiveToggle';
 
@@ -14,11 +15,13 @@ type EntityCardProps = {
 
 const EntityCardComponent = ({title, buttons, Component, isArchive, hideButtons} : EntityCardProps) => {
 
+    const {t} = useTranslation();
+
     const buttonsTemplate: Array<{ code: ItemButtonCode, variant: string, text: string, icon: ReactNode}> = [
-        {code: 'save', variant: 'outline-success', text:'Сохранить', icon: <Save size={16} /> },
-        {code: 'archiveToggle', variant: 'outline-secondary', text: isArchive ? 'Из архива' : 'В архив',
+        {code: 'save', variant: 'outline-success', text: t('common.save'), icon: <Save size={16} /> },
+        {code: 'archiveToggle', variant: 'outline-secondary', text: isArchive ? t('common.unarchive') : t('common.archive'),
             icon: isArchive ? <ArchiveRestore size={16} /> : <Archive size={16} /> },
-        {code: 'delete', variant: 'outline-danger', text:'Удалить', icon: <Trash2 size={16} /> },
+        {code: 'delete', variant: 'outline-danger', text: t('common.delete'), icon: <Trash2 size={16} /> },
     ]
 
   return (

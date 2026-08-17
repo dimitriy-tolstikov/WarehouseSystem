@@ -6,6 +6,7 @@ import {useThemeMode} from "../../theme/themeMode";
 import PurePaginationComponent from "./PurePaginationComponent";
 import type {PageView} from "../../types/PageView";
 import type {GridColumnType} from "../../types/Grid";
+import {useTranslation} from "../../i18n/locale";
 
 type DataGridProps = {
     rows: Record<string, unknown>[],
@@ -19,13 +20,17 @@ type DataGridProps = {
 const DataGridComponent = ({rows, columns, pageView, onPageSizeChange, onPageChange, onItemOpen }: DataGridProps) => {
   const [mode] = useThemeMode();
   const gridTheme = useMemo(() => getGridTheme(mode), [mode]);
+  const {t} = useTranslation();
+
+  // headerName колонок приходит как ключ перевода — подставляем текст текущей локали
+  const localizedColumns = columns.map(c => ({...c, headerName: t(c.headerName)}));
 
   return(
   <>
       <div className='w-100 flex-grow-1' style={{minHeight: 0}}>
           <ThemeProvider theme={gridTheme}>
               <Box className='d-flex' sx={{ height: '100%', width: '100%' }} >
-                  <DataGrid rows={rows} columns={columns}
+                  <DataGrid rows={rows} columns={localizedColumns}
                              hideFooter rowHeight={36}
                             getRowClassName={(params) =>
                                 params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'

@@ -1,5 +1,7 @@
 // Минимальная клиентская валидация документов (поступление/отгрузка) перед сохранением
 
+import {t} from "../i18n/locale";
+
 export type DocumentItemLike = {
     resourceId?: number | null,
     unitId?: number | null,
@@ -15,19 +17,19 @@ export type DocumentLike = {
 // Возвращает текст первой ошибки или null, если документ валиден
 export const validateDocument = (doc: DocumentLike): string | null => {
     if (!doc.number || doc.number.trim() === '')
-        return 'Не заполнен номер документа';
+        return t('validation.numberRequired');
     if (!doc.date || isNaN(doc.date.getTime()))
-        return 'Не заполнена дата документа';
+        return t('validation.dateRequired');
     const items = doc.items ?? [];
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
-        const row = 'Позиция ' + (i + 1) + ': ';
+        const n = i + 1;
         if (!item.resourceId || item.resourceId <= 0)
-            return row + 'не выбран ресурс';
+            return t('validation.itemResource', {n});
         if (!item.unitId || item.unitId <= 0)
-            return row + 'не выбрана единица измерения';
+            return t('validation.itemUnit', {n});
         if (!item.quantity || item.quantity <= 0)
-            return row + 'количество должно быть больше нуля';
+            return t('validation.itemQuantity', {n});
     }
     return null;
 }

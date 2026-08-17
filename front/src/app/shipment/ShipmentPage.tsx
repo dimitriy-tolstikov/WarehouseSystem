@@ -3,6 +3,7 @@ import {
     CLIENT_API_PATH, RESOURCE_API_PATH, SHIPMENT_API_PATH, SHIPMENT_PAGE_ROUTE, UNIT_API_PATH
 } from "../../utils/consts";
 import type {ShipmentEntity, ShipmentItemEntity} from "../../types/Entities";
+import {t} from "../../i18n/locale";
 
 type ShipmentGridRow = {
     id: string;
@@ -16,23 +17,23 @@ type ShipmentGridRow = {
     hrefId: number;
 }
 
-const ShipmentPage = createGridPage<ShipmentEntity>(SHIPMENT_API_PATH, SHIPMENT_PAGE_ROUTE, 'Отгрузки', 'Filters',
+const ShipmentPage = createGridPage<ShipmentEntity>(SHIPMENT_API_PATH, SHIPMENT_PAGE_ROUTE, 'shipment.listTitle', 'Filters',
     [
-        {field: 'number', headerName: 'Номер', width: 150},
-        {field: 'date', headerName: 'Дата', width: 100},
-        {field: 'clientName', headerName: 'Клиент', width: 150},
-        {field: 'isApprove', headerName: 'Статус', width: 150, renderCell:
+        {field: 'number', headerName: 'common.number', width: 150},
+        {field: 'date', headerName: 'common.date', width: 100},
+        {field: 'clientName', headerName: 'common.client', width: 150},
+        {field: 'isApprove', headerName: 'common.status', width: 150, renderCell:
                 (params) => (params.value !== undefined ? <span className={'status-badge p-1 ps-2 pe-2 rounded-2 '
-                    + (params.value ? 'status-badge--ok' : 'status-badge--neutral')}>{params.value ? 'Подписан' : 'Не подписан'}</span> : null)},
-        {field: 'resource', headerName: 'Ресурс', width: 150},
-        {field: 'unit', headerName: 'Единица измерения', width: 150},
-        {field: 'quantity', headerName: 'Количество', width: 150},
+                    + (params.value ? 'status-badge--ok' : 'status-badge--neutral')}>{params.value ? t('shipment.approved') : t('shipment.notApproved')}</span> : null)},
+        {field: 'resource', headerName: 'common.resource', width: 150},
+        {field: 'unit', headerName: 'common.unit', width: 150},
+        {field: 'quantity', headerName: 'common.quantity', width: 150},
     ], [
-        {fieldName: 'Date', name: 'Период', type:'date' },
-        {fieldName: 'Id', name: 'Номер', type:'select', apiPath: SHIPMENT_API_PATH },
-        {fieldName: 'Client.Id', name: 'Клиент', type:'select', apiPath: CLIENT_API_PATH },
-        {fieldName: 'ShipmentItems.Resource.Id', name: 'Ресурс', type:'select', apiPath: RESOURCE_API_PATH },
-        {fieldName: 'ShipmentItems.Unit.Id', name: 'Единица измерения', type:'select', apiPath: UNIT_API_PATH },
+        {fieldName: 'Date', name: 'common.period', type:'date' },
+        {fieldName: 'Id', name: 'common.number', type:'select', apiPath: SHIPMENT_API_PATH },
+        {fieldName: 'Client.Id', name: 'common.client', type:'select', apiPath: CLIENT_API_PATH },
+        {fieldName: 'ShipmentItems.Resource.Id', name: 'common.resource', type:'select', apiPath: RESOURCE_API_PATH },
+        {fieldName: 'ShipmentItems.Unit.Id', name: 'common.unit', type:'select', apiPath: UNIT_API_PATH },
     ], true,
     (items) => {
         const rows: ShipmentGridRow[] = [];

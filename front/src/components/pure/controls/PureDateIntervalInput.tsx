@@ -2,6 +2,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../style/DateInput.css"
 import {DATE_FORMAT} from "../../../utils/consts";
+import {useTranslation} from "../../../i18n/locale";
 
 type PureDateIntervalInputProps = {
     valueStart: Date | undefined,
@@ -10,6 +11,8 @@ type PureDateIntervalInputProps = {
 }
 
 const PureDateIntervalInput = ({valueStart, valueEnd, onChange}: PureDateIntervalInputProps) => {
+
+    const {t} = useTranslation();
 
     const processResult = (date: Date | null) => {
         if(date === null) return undefined;
@@ -25,7 +28,7 @@ const PureDateIntervalInput = ({valueStart, valueEnd, onChange}: PureDateInterva
           <DatePicker selected={ processValue(valueStart) }
                       onChange={(e) => {const date = e as Date;onChange([processResult(date), valueEnd])} }
                       showYearDropdown
-                      placeholderText={'От (включая)'}
+                      placeholderText={t('filter.dateFrom')}
                       startDate={ processValue(valueStart) }
                       endDate={ processValue(valueEnd) }
                       selectsStart
@@ -36,7 +39,7 @@ const PureDateIntervalInput = ({valueStart, valueEnd, onChange}: PureDateInterva
           <DatePicker selected={ processValue(valueEnd) }
                       onChange={(e) => {const date = e as Date;onChange([valueStart, processResult(date)])} }
                       showYearDropdown
-                      placeholderText={'До (включая)'}
+                      placeholderText={t('filter.dateTo')}
                       startDate={ processValue(valueStart) }
                       endDate={ processValue(valueEnd) }
                       selectsEnd

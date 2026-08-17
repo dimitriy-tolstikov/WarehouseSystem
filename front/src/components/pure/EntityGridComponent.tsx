@@ -6,6 +6,7 @@ import FilterComponent from "../FilterComponent";
 import type {GridColumnType} from "../../types/Grid";
 import {Archive, ArchiveRestore, Funnel, Plus} from "lucide-react";
 import type {ReactNode} from "react";
+import {useTranslation} from "../../i18n/locale";
 
 type GridButtonsId = 'create' | 'toArchive' | 'fromArchive' | 'applyFilter'
 
@@ -24,11 +25,13 @@ type EntityGridProps = {
 const EntityGridComponent = ({title, buttons, rows, columns, pageView, onPageChange, onPageSizeChange,
                                              onItemOpen, filters}: EntityGridProps) => {
 
+    const {t} = useTranslation();
+
     const buttonsTemplate: Array<{ id: GridButtonsId, variant: string, text: string, icon: ReactNode}> = [
-        {id: "applyFilter", variant:"outline-dark", text: 'Применить фильтр', icon: <Funnel size={16} /> },
-        {id: "create", variant:"outline-success", text:"Добавить", icon: <Plus size={16} /> },
-        {id: "toArchive", variant:"outline-secondary", text: "В архив", icon: <Archive size={16} /> },
-        {id: "fromArchive", variant:"outline-secondary", text: 'Из архива', icon: <ArchiveRestore size={16} /> },
+        {id: "applyFilter", variant:"outline-dark", text: t('grid.applyFilter'), icon: <Funnel size={16} /> },
+        {id: "create", variant:"outline-success", text: t('grid.create'), icon: <Plus size={16} /> },
+        {id: "toArchive", variant:"outline-secondary", text: t('common.archive'), icon: <Archive size={16} /> },
+        {id: "fromArchive", variant:"outline-secondary", text: t('common.unarchive'), icon: <ArchiveRestore size={16} /> },
 
     ]
 
