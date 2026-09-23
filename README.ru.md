@@ -1,6 +1,6 @@
 # WarehouseSystem
 
-![CI](https://github.com/dimitriy-tolstikov/Warehouse-System/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/dimitriy-tolstikov/WarehouseSystem/actions/workflows/ci.yml/badge.svg)
 ![.NET 9](https://img.shields.io/badge/.NET-9-512BD4?logo=dotnet)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)
@@ -22,7 +22,7 @@
 Самый быстрый способ поднять весь стек:
 
 ```bash
-git clone https://github.com/dimitriy-tolstikov/Warehouse-System.git
+git clone https://github.com/dimitriy-tolstikov/WarehouseSystem.git
 cd WarehouseSystem
 cp .env.example .env   # креденшелы PostgreSQL для Compose; поменяй для реального развёртывания
 docker compose up --build
